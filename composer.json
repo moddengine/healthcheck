@@ -1,6 +1,6 @@
 {
   "name": "moddengine/healthcheck",
-  "description": "Basic Website Healthchecks",
+  "description": "Basic Website Health Checks for WHM/CPanel to Graylog",
   "type": "project",
   "scripts": {
     "psalm": "psalm"
