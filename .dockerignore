@@ -1,4 +1,6 @@
 
 Dockerfile
 .editorconfig
-vendor
+node_modules/
+secrets/
+vendor/

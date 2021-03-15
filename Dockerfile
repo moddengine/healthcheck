@@ -34,7 +34,9 @@ RUN set -xe; \
 
 WORKDIR /healthcheck/
 
-COPY --from=php-composer /tmp/vendor /moddengine/vendor
+COPY --from=php-composer /tmp/vendor /healthcheck/vendor
 
-COPY * /healthcheck/
+COPY crontab /healthcheck/
+COPY run.php /healthcheck/
+COPY src/ /healthcheck/src
 CMD supercronic -overlapping -debug /healthcheck/crontab
