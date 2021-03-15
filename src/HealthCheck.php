@@ -51,7 +51,7 @@ class HealthCheck
     );
   }
 
-  function getWhm(string $path, string $query): stdClass
+  function getWhm(string $path, string $query): \stdClass
   {
     return json_decode(
       $this->http

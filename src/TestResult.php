@@ -104,15 +104,14 @@ class TestResult
     }
 
     $log->notice(
-      "Website Health check for {$this->domain->domain}: " .
       match($this->status) {
-        200,203 => 'Up',
-        400,401,402,403,404 => 'Not Found',
-        500,501,502,503 => 'Down (Server Error)',
-        self::ERR_DNS => 'Down (DNS Error)',
-        self::ERR_SSL => 'Down (Certificate Error)',
-        self::ERR_UNKNOWN => 'Down',
-        default => 'Down (Unknown)'
+        200,203 => "Website {$this->domain->domain} is UP",
+        400,401,402,403,404 => "Website {$this->domain->domain} is UP but returing Not Found ({$this->status})",
+        500,501,502,503 => "Website {$this->domain->domain} is DOWN with Server Error",
+        self::ERR_DNS => "Website {$this->domain->domain} is DOWN with DNS Error",
+        self::ERR_SSL => "Website {$this->domain->domain} is DOWN with SSL Error",
+        self::ERR_UNKNOWN => "Website {$this->domain->domain} is DOWN",
+        default => "Website {$this->domain->domain} is DOWN"
       },
      $data
     );
