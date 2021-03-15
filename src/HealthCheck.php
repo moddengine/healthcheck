@@ -51,7 +51,7 @@ class HealthCheck
     );
   }
 
-  function getWhm($path, $query)
+  function getWhm(string $path, string $query): stdClass
   {
     return json_decode(
       $this->http
@@ -69,7 +69,7 @@ class HealthCheck
   /** @var DomainInfo[] */
   public array $domains = [];
 
-  public function run()
+  public function run(): void
   {
     $accountList = $this->getWhm(
       'json-api/listaccts',
@@ -109,7 +109,7 @@ class HealthCheck
     }
   }
 
-  private function testDomain(DomainInfo $d)
+  private function testDomain(DomainInfo $d): void
   {
     try {
       $res = $this->http->get('https://' . $d->domain . '/', [

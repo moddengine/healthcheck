@@ -13,6 +13,6 @@ RUN set -xe; \
   mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" && \
   ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
 
+WORKDIR /healthcheck/
 COPY * /healthcheck/
-
 CMD supercronic -overlapping -debug /crontab
