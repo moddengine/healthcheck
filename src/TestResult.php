@@ -79,7 +79,7 @@ class TestResult
     if ($this->error) $data['health_error'] = $this->error;
     if ($this->remoteIp) {
       $data['health_host'] = $this->remoteIp;
-      $data['health_modd_host'] = in_array($this->remoteIp, HealthCheck::$hostedIps, true) ? 1 : 0;
+      $data['health_live'] = in_array($this->remoteIp, HealthCheck::$hostedIps, true) ? 1 : 0;
     }
     $data['health_status'] = match ($this->status) {
       200, 203 => "UP",
