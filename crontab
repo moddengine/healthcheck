@@ -1,1 +1,1 @@
-*/15 * * * * * php /healthcheck/run.php
+*/15 * * * * * php -d display_errors=1 -d error_reporting=E_ALL /healthcheck/run.php
