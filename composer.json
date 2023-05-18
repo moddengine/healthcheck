@@ -11,6 +11,7 @@
     }
   },
   "require": {
+    "php":">=8.0",
     "guzzlehttp/guzzle": "^7.2",
     "graylog2/gelf-php": "^1.7",
     "moddengine/dice": "^4.1",

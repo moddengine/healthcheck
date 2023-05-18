@@ -11,6 +11,8 @@ use Nyholm\Psr7\Request;
 use Nyholm\Psr7\Uri;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Logger\ConsoleLogger;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class HealthCheck
 {
@@ -19,16 +21,20 @@ class HealthCheck
   private Request $baseReq;
   private LoggerInterface $log;
 
+  static array $hostedIps = [];
+
   /** @var \stdClass  */
   private $config;
 
   public function __construct(Client $http, LogFactory $logFactory)
   {
-    $this->http = $http;
-    $this->log = $logFactory->default();
     $this->config = json_decode(
       file_get_contents(__DIR__ . '/../secrets/secrets.json'),
     );
+    $this->http = $http;
+    $this->log = $logFactory->default($this->config->graylog ?? new stdClass());
+    //    $this->log = new StdErrLogger();
+    self::$hostedIps = $this->config->hostedip;
     $this->baseReq = new Request(
       'GET',
       new Uri("https://{$this->config->cpanelapi->host}:2087/"),
@@ -87,7 +93,7 @@ class HealthCheck
       ->data->domains;
     foreach ($domainList as $domInfo) {
       if (!$this->accounts[$domInfo->user]) {
-        var_dump($domInfo);
+        var_dump(array_keys($this->accounts), $domInfo);
         die();
       }
       if (!$this->accounts[$domInfo->user]->suspended) {

@@ -1,1 +1,1 @@
-*/10 * * * * * php /healthcheck/run.php
+*/15 * * * * * php /healthcheck/run.php
