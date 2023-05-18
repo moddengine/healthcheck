@@ -1,4 +1,5 @@
-## CPanel Healthcheck Script
+WHM/CPanel Healthcheck Script
+=============================
 
 Accesses account list from cpanel, and does a HTTP get to each domain hosted int the cpanel and checks that it returns
 a non-empty page with a successful HTTP status, over an SSL connection.
@@ -27,7 +28,7 @@ Reports errors into graylog to allow for alerting and creating of dashboards
 ```
 
 Also include `ca.pem` with the ssl certificate for graylog server and `key.pem` with the combined client private key and
-client certificate in the `/secrets` directory.
+client cer[Dockerfile](Dockerfile)tificate in the `/secrets` directory.
 
 Currently in the crontab file the healthcheck is run every 15 minutes
 

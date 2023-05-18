@@ -1,0 +1,9 @@
+version: '3.4'
+services:
+  healthcheck:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: healthcheck:dev
+    volumes:
+      - ./secrets:/healthcheck/secrets
