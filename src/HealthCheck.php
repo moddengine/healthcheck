@@ -23,7 +23,7 @@ class HealthCheck
 
   static array $hostedIps = [];
 
-  /** @var \stdClass  */
+  /** @var \stdClass */
   private $config;
 
   public function __construct(Client $http, LogFactory $logFactory)
@@ -32,8 +32,10 @@ class HealthCheck
       file_get_contents(__DIR__ . '/../secrets/secrets.json'),
     );
     $this->http = $http;
-    $this->log = $logFactory->default($this->config->graylog ?? new stdClass());
-    //    $this->log = new StdErrLogger();
+    $this->log = new MultiLogger([
+        $logFactory->default($this->config->graylog ?? new \stdClass()),
+//        new StdErrLogger()
+      ]);
     self::$hostedIps = $this->config->hostedip;
     $this->baseReq = new Request(
       'GET',
@@ -48,7 +50,8 @@ class HealthCheck
     string $method,
     string $path,
     string $query
-  ): RequestInterface {
+  ): RequestInterface
+  {
     return $this->baseReq->withMethod($method)->withUri(
       $this->baseReq
         ->getUri()
@@ -85,7 +88,7 @@ class HealthCheck
       $this->accounts[$acct->user] = new AccountInfo(
         $acct->domain,
         $acct->user,
-        (bool) $acct->suspended,
+        (bool)$acct->suspended,
       );
     }
 
@@ -111,7 +114,6 @@ class HealthCheck
     );
     foreach ($this->domains as $d) {
       $this->testDomain($d);
-      sleep(1);
     }
   }
 
@@ -120,6 +122,7 @@ class HealthCheck
     try {
       $res = $this->http->get('https://' . $d->domain . '/', [
         RequestOptions::ALLOW_REDIRECTS => true,
+        RequestOptions::TIMEOUT => 10,
         RequestOptions::ON_STATS => function (TransferStats $stats) use ($d) {
           $res = null;
           if ($stats->hasResponse()) {

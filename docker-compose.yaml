@@ -6,4 +6,5 @@ services:
       dockerfile: Dockerfile
     image: healthcheck:dev
     volumes:
-      - ./secrets:/healthcheck/secrets
+      - .:/healthcheck
+#      - ./secrets:/healthcheck/secrets

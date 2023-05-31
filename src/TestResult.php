@@ -87,21 +87,25 @@ class TestResult
       500, 501, 502, 503 => "SERVER_ERROR",
       self::ERR_DNS => "DNS_FAIL",
       self::ERR_SSL => "SSL_FAIL",
-      default => "UKNOWN_ERROR",
+      default => "UNKNOWN_ERROR",
     };
 
-    $log->notice(
-      match ($this->status) {
-        200, 203 => "Website {$this->domain->domain} is UP",
-        400, 401, 402, 403, 404 => "Website {$this->domain->domain} is UP but returing Not Found ({$this->status})",
-        500, 501, 502, 503 => "Website {$this->domain->domain} is DOWN with Server Error",
-        self::ERR_DNS => "Website {$this->domain->domain} is DOWN with DNS Error",
-        self::ERR_SSL => "Website {$this->domain->domain} is DOWN with SSL Error",
-        self::ERR_UNKNOWN => "Website {$this->domain->domain} is DOWN",
-        default => "Website {$this->domain->domain} is DOWN"
-      },
-      $data
-    );
+    try {
+      $log->notice(
+        match ($this->status) {
+          200, 203 => "Website {$this->domain->domain} is UP",
+          400, 401, 402, 403, 404 => "Website {$this->domain->domain} is UP but returing Not Found ({$this->status})",
+          500, 501, 502, 503 => "Website {$this->domain->domain} is DOWN with Server Error",
+          self::ERR_DNS => "Website {$this->domain->domain} is DOWN with DNS Error",
+          self::ERR_SSL => "Website {$this->domain->domain} is DOWN with SSL Error",
+          self::ERR_UNKNOWN => "Website {$this->domain->domain} is DOWN",
+          default => "Website {$this->domain->domain} is DOWN"
+        },
+        $data
+      );
+    } catch (\Exception $e) {
+      var_dump($e);
+    }
   }
 
   public function isRedirect(): bool
