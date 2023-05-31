@@ -104,7 +104,8 @@ class TestResult
         $data
       );
     } catch (\Exception $e) {
-      var_dump($e);
+      $previous = $e->getPrevious();
+      var_dump($e->getMessage(), $previous?->getMessage());
     }
   }
 
